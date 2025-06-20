@@ -21,10 +21,14 @@ const scales = [
 const angle = 30 * (Math.PI / 180);
 
 function calculateIsometricDimensions(width: number, depth: number, height: number) {
-  const isoWidth = Math.abs(width * Math.cos(angle)) + Math.abs(depth * Math.cos(angle));
-  const isoHeight = height + Math.abs(width * Math.sin(angle)) + Math.abs(depth * Math.sin(angle));
-  console.log(isoWidth, isoHeight);
-  return { isoWidth, isoHeight };
+  const widthCos = Math.abs(width * Math.cos(angle));
+  const depthCos = Math.abs(depth * Math.cos(angle));
+  const widthSin = Math.abs(width * Math.sin(angle));
+  const depthSin = Math.abs(depth * Math.sin(angle));
+  const isoWidth = widthCos + depthCos;
+  const isoHeight = height + widthSin + depthSin;
+  //console.log(isoWidth, isoHeight);
+  return { widthCos, depthCos, widthSin, depthSin, isoWidth, isoHeight };
 }
 
 function validateInput(value: string): number {
@@ -41,6 +45,10 @@ export default function Home() {
   const [calculatedDimensions, setCalculatedDimensions] = useState<{
     isoWidth: number;
     isoHeight: number;
+    widthCos: number;
+    depthCos: number;
+    widthSin: number;
+    depthSin: number;
     marginLeft: number;
     marginTop: number;
     formatWidth: number;
@@ -52,7 +60,7 @@ export default function Home() {
     const numDepth = validateInput(depth);
     const numHeight = validateInput(height);
 
-    const { isoWidth, isoHeight } = calculateIsometricDimensions(numWidth, numDepth, numHeight);
+    const { isoWidth, isoHeight, widthCos, depthCos, widthSin, depthSin } = calculateIsometricDimensions(numWidth, numDepth, numHeight);
 
     // Calcular dimensiones del formato según la escala
     const formatWidth = baseFormatWidth / scale;
@@ -70,6 +78,10 @@ export default function Home() {
     setCalculatedDimensions({
       isoWidth,
       isoHeight,
+      widthCos,
+      depthCos,
+      widthSin,
+      depthSin,
       marginLeft,
       marginTop,
       formatWidth,
@@ -165,6 +177,10 @@ export default function Home() {
               <div className="space-y-1 text-slate-200">
                 <p>Ancho proyectado: {calculatedDimensions.isoWidth.toFixed(2)} mm</p>
                 <p>Altura proyectada: {calculatedDimensions.isoHeight.toFixed(2)} mm</p>
+                <p>widthCos: {calculatedDimensions.widthCos.toFixed(2)} mm</p>
+                <p>depthCos: {calculatedDimensions.depthCos.toFixed(2)} mm</p>
+                <p>widthSin: {calculatedDimensions.widthSin.toFixed(2)} mm</p>
+                <p>depthSin: {calculatedDimensions.depthSin.toFixed(2)} mm</p>
               </div>
               <p className="font-semibold text-slate-50 pt-2">Márgenes sugeridos:</p>
               <div className="space-y-1 text-slate-200">
