@@ -14,6 +14,7 @@ const scales = [
   { label: 'Escala 2:1', value: 2 },
   { label: 'Escala 1 1/3:1', value: 1.3333333333333333 },
   { label: 'Escala 1:1', value: 1 },
+  { label: 'Escala 1:1,25', value: 0.8 },
   { label: 'Escala 1:2', value: 0.5 },
   { label: 'Escala 1:5', value: 0.2 },
   { label: 'Escala 1:10', value: 0.1 },
